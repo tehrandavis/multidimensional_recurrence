@@ -23,7 +23,7 @@ multi-dimensional recurrence methods written in Julia.
   - plot of FNN function and estimated embedding
   - recurrence plot
 
-  ![diagnostic_plots_filename](/Users/tehrandavis/Github/md-recurrence-julia/diagnostic_plots_filename.png)
+  ![diagnostic_plots_filename](diagnostic_plots_filename.png)
 
 
 
