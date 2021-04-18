@@ -9,7 +9,7 @@ Pkg.add("LinearAlgebra") # diag caculation
 Pkg.add("Distances") # matrix pairwise distances
 Pkg.add("ElasticArrays") # efficent matrices
 
-using Distances, ElasticArrays, LinearAlgebra;
+using Distances, ElasticArrays, LinearAlgebra, StatsBase;
 =#
 
 function mdFnn(data, tau, maxEmb, numSamples, Rtol, Atol)
