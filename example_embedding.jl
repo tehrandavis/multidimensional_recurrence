@@ -12,13 +12,15 @@ Pkg.add("Statistics");
 Pkg.add("Plots"); # plotting
 
 using DataFrames, Plots, CSV, DynamicalSystems, Statistics;
+include("mdFnn.jl")
 
 # Step 1 ----- load in an example dataset
-data = DataFrame!(CSV.File("exampleData.csv"));
+data = DataFrame(CSV.File("exampleData.csv"));
+data = DataFrame(CSV.File("lorenz.csv", header=false));
 
 # turn to matrix (and in this case only use first 3 columns)
 ts_names = names(data[1:3]) |> permutedims; # use this for ami plotting
-data = Matrix(data[:,1:3]);
+data = Matrix(data)[:,1:2];
 
 # get the dimensions (number of columns) of the data
 ncol = size(data,2);
