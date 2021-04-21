@@ -7,24 +7,36 @@ multi-dimensional recurrence methods written in Julia.
 ## Files
 
 - **mdFnn.jl**: estimates false nearest neighbors function for multidimensional dataset
+- **mdEmbed.jl** embeds multidimensional timeseries
 
-- **example_embedding.jl**: example script for running md-RQA, uses:
-
+- **example_mdRQA.jl**: example script for running md-RQA, uses:
   - **mdFnn.jl** for multi-dimensional estimate of embedding
+  - **mdEmbed.jl** for multi-dimensional embedding
   - **DynamicalSystems.jl** for delay-embedding and recurrence analysis
+
+- **example_mdCRQA.jl**: example script for running md-CRQA
 
 - **exampleData.csv**: example input dataset. Contains hand position data for two participants in a joint task
 
-- **rqa_output.csv**: example output data frame of analysis.
+- **rqa_output.csv**: example output data frame of md_RQAanalysis.
+- **crqa_output.csv**: example output data frame of md_CRQAanalysis.
 
-- **diagnostic_plots_filename.png**: output of diagnositic plot. Contains:
+- **simple_diagnostic_plots_filename.png**: output of diagnositic plot. Contains:
 
   - plot of AMI funciton and estimated delay (mean value of all dimensions)
   - plot of FNN function and estimated embedding
   - recurrence plot
 
-  ![diagnostic_plots_filename](diagnostic_plots_filename.png)
+  ![simple_diagnostic_plots_filename](simple_diagnostic_plots_filename.png)
 
+- **cross_rec_diagnostic_plots.png**: output of diagnositic plot for md-CRQA. Contains *for each timeseries*:
+  - movement timeseries plots
+  - plot of AMI funciton and estimated delay (mean value of all dimensions)
+  - plot of FNN function and estimated embedding
+  - cross recurrence plot
+  - diagonal RR plot
+  
+  ![cross_rec_diagnostic_plot](cross_rec_diagnostic_plot.png)
 
 
 

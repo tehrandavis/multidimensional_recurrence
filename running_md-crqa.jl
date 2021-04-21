@@ -191,5 +191,3 @@ diagnostic_plots_filename = string("cross_rec_diagnostic_plot.png")
 png(diagnostic_plots, diagnostic_plots_filename)
 
 
-# save output
-# CSV.write("crqa_output.csv", df_out);
