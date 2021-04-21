@@ -50,6 +50,9 @@ else
     ts2_names = "timeseries"
 end
 
+# normalize the timeseries if from different signals or dimensions
+ts1 = StatsBase.standardize(ZScoreTransform, ts1; dims=1, center=true, scale=true)
+ts2 = StatsBase.standardize(ZScoreTransform, ts2; dims=1, center=true, scale=true)
 
 
 
