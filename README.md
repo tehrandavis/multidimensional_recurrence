@@ -2,7 +2,7 @@
 multi-dimensional recurrence methods written in Julia. 
 
 - Adapted from Wallot and Mønster (2018) "Calculation of Average Mutual Information (AMI) and False-Nearest Neighbors (FNN) for the Estimation of Embedding Parameters of Multidimensional Time Series in Matlab."  https://doi.org/10.3389/fpsyg.2018.01679
-- credit to Dan Mønster: https://github.com/danm0nster/mdembedding
+- credit to Dan Mønster: https://github.com/danm0nster/mdembedding and Sebastian Wallot (https://github.com/Wallot/MdRQA)
 
 ## Files
 
