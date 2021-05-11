@@ -18,6 +18,11 @@ using ElasticArrays;
 =#
 
 function mdEmbed(data, D, τ)
+
+    if typeof(data) <: Dataset
+        data = data |> Matrix
+    end
+    
     nrows = size(data,1)
     embed_series = ElasticArray{Float64}(undef, nrows-(D-1)*τ, 0);
 

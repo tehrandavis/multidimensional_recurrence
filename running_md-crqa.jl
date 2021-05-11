@@ -51,8 +51,10 @@ else
 end
 
 # normalize the timeseries if from different signals or dimensions
-ts1 = StatsBase.standardize(ZScoreTransform, ts1; dims=1, center=true, scale=true)
-ts2 = StatsBase.standardize(ZScoreTransform, ts2; dims=1, center=true, scale=true)
+# |> save as a Dataset (per DynamicalSystems.jl documentation): for now this does nothing,
+# but futureproofing
+ts1 = StatsBase.standardize(ZScoreTransform, ts1; dims=1, center=true, scale=true) |> Dataset
+ts2 = StatsBase.standardize(ZScoreTransform, ts2; dims=1, center=true, scale=true) |> Dataset
 
 
 
@@ -71,7 +73,7 @@ lags_ts1 = zeros(ncol_ts1);
 
 plotMI_ts1 = zeros(maxlag+1, ncol_ts1);
 for dimension in 1:ncol_ts1
-    plotMI_ts1[:,dimension] = mutualinformation(ts1[:,dimension],0:1:maxlag; nbins=nbins);
+    plotMI_ts1[:,dimension] = selfmutualinfo(ts1[:,dimension],0:1:maxlag; nbins=nbins);
     lags_ts1[dimension] = estimate_delay(ts1[:,dimension], "mi_min", 0:1:maxlag; nbins=nbins);
 end
 
@@ -80,7 +82,7 @@ lags_ts2 = zeros(ncol_ts2);
 
 plotMI_ts2 = zeros(maxlag+1, ncol_ts2);
 for dimension in 1:ncol_ts2
-    plotMI_ts2[:,dimension] = mutualinformation(ts2[:,dimension],0:1:maxlag; nbins=nbins);
+    plotMI_ts2[:,dimension] = selfmutualinfo(ts2[:,dimension],0:1:maxlag; nbins=nbins);
     lags_ts2[dimension] = estimate_delay(ts2[:,dimension], "mi_min", 0:1:maxlag; nbins=nbins);
 end
 
@@ -132,7 +134,11 @@ CRP = CrossRecurrenceMatrix(embed_ts1, embed_ts2, .05; fixedrate = true);
 # JRP = JointRecurrenceMatrix(embed_ts1, embed_ts2, .05; fixedrate = true);
 
 # Step 6 ------ Recurrence quantification
-crqaOUT = rqa(CRP; lmin = 20, thieller = 0);
+
+# note that NamedTuple will soon be depreciated. Need to adjust for Dict
+crqaOUT = rqa(NamedTuple, CRP; lmin = 20, thieller = 0);
+
+
 #jrqaOUT = rqa(JRP; lmin = 20, thieller = 0);
 
 # diagonal crp profile

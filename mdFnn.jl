@@ -13,6 +13,10 @@ using Distances, ElasticArrays, LinearAlgebra, StatsBase;
 =#
 
 function mdFnn(data, tau, maxEmb, numSamples, Rtol, Atol)
+    if typeof(data) <: Dataset
+        data = data |> Matrix
+    end
+
     dims = size(data,2);
     N = size(data,1);
 
