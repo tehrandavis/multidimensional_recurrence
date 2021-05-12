@@ -136,7 +136,8 @@ CRP = CrossRecurrenceMatrix(embed_ts1, embed_ts2, .05; fixedrate = true);
 # Step 6 ------ Recurrence quantification
 
 # note that NamedTuple will soon be depreciated. Need to adjust for Dict
-crqaOUT = rqa(NamedTuple, CRP; lmin = 20, thieller = 0);
+crqaOUT = rqa(CRP; lmin = 20, thieller = 0);
+crqaOUT = (; crqaOUT...) # convert Dict to NamedTuple
 
 
 #jrqaOUT = rqa(JRP; lmin = 20, thieller = 0);
