@@ -41,7 +41,7 @@ maxlag = 200;
 lags = zeros(ncol);
 plotMI = zeros(maxlag+1, ncol);
 for dimension in 1:ncol
-    plotMI[:,dimension] = mutualinformation(data[:,dimension],0:1:maxlag; nbins=nbins);
+    plotMI[:,dimension] = selfmutualinfo(data[:,dimension],0:1:maxlag; nbins=nbins);
     lags[dimension] = estimate_delay(data[:,dimension], "mi_min", 0:1:maxlag; nbins=nbins);
 end
 
