@@ -1,16 +1,21 @@
-#=
-mdFnn.jl:
+"""
+    mdFnn(data, tau, maxEmb, numSamples, Rtol, Atol)
 
-a Julia based alternative for running multi-dimensional recurrence analysis. Based on Dan Mønster's code: https://github.com/danm0nster/mdembedding
+Estimates the percentage of False Nearest Neighbors (FNN) for a multidimensional dataset.
 
-requires:
-using Pkg
-Pkg.add("LinearAlgebra") # diag caculation
-Pkg.add("Distances") # matrix pairwise distances
-Pkg.add("ElasticArrays") # efficent matrices
+# Arguments
+- `data`: Multidimensional time series (Matrix or Dataset).
+- `tau`: Time delay (integral number of samples).
+- `maxEmb`: Maximum embedding dimension to test.
+- `numSamples`: Number of random samples to use for FNN estimation.
+- `Rtol`: Threshold for the ratio of neighbor distances in $D$ vs $D+1$ (typically 10-15).
+- `Atol`: Threshold for the distance relative to the attractor size (typically 2).
 
-using Distances, ElasticArrays, LinearAlgebra, StatsBase;
-=#
+# Returns
+- `fnnPerc`: A Vector of FNN percentages for dimensions 1 to `maxEmb`.
+
+Adapted from Wallot and Mønster (2018).
+"""
 
 function mdFnn(data, tau, maxEmb, numSamples, Rtol, Atol)
     if typeof(data) <: Dataset
@@ -37,7 +42,10 @@ function mdFnn(data, tau, maxEmb, numSamples, Rtol, Atol)
     end
     
     embData = ElasticArray{Float64}(undef, N-tau*(maxEmb-1), 0);
-
+    
+    # Initialize variables to avoid global scope and ensure availability
+    r2d = Float64[]
+    yRd = Int[]
 
     for i = 1:maxEmb # embed data
         append!(embData,data[1+(i-1)*tau:end-(maxEmb-i)*tau, 1:dims]);
@@ -51,14 +59,14 @@ function mdFnn(data, tau, maxEmb, numSamples, Rtol, Atol)
             push!(yRd1, coord[2] |> Int);
         end
         if i == 1
-            global r2d = r2d1;
-            global yRd = r2d1;
+            r2d = r2d1;
+            yRd = yRd1;
         else
             fnnTemp = Array{Float64}(undef, 0);
             for j = 1:length(r2d1)
                 temp = dists[:,samps[j]];
                 # check whether neighbors are false
-                if sqrt(abs((temp[yRd1[j]] - r2d[j])/r2d[j])) > Rtol || abs(temp[yRd1[j]] - r2d[j])/Ra > Atol
+                if sqrt(abs((temp[yRd[j]]^2 - r2d[j]^2)/r2d[j]^2)) > Rtol || abs(temp[yRd[j]] - r2d[j])/Ra > Atol
                     append!(fnnTemp, 1);
                 else
                     append!(fnnTemp, 0);
@@ -66,7 +74,7 @@ function mdFnn(data, tau, maxEmb, numSamples, Rtol, Atol)
             end
             push!(fnnPerc, 100*sum(fnnTemp)/length(fnnTemp)); # compute percentage of FNN
             r2d = r2d1;
-            yRd = r2d1;
+            yRd = yRd1; 
         end
     end
 

@@ -1,7 +1,8 @@
 
-#=
-This script runs step-by-step through md-RQA analysis in Julia. It uses DynamicalSystems.jl for delay embedding and analysis. 
-=#
+"""
+This script runs step-by-step through md-RQA analysis in Julia. 
+It uses DynamicalSystems.jl for delay embedding and analysis. 
+"""
 
 # ----- this script relies on the following packages -----
 using Pkg

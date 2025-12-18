@@ -1,8 +1,9 @@
 
-#=
-This script runs step-by-step through md-cRQA analysis in Julia. It uses DynamicalSystems.jl for delay embedding and analysis. 
-Please see 'example_embedding.jl' for more info
-=#
+"""
+This script runs step-by-step through md-cRQA analysis in Julia. 
+It uses DynamicalSystems.jl for delay embedding and analysis. 
+Please see 'example_embedding.jl' for more info.
+"""
 
 # ----- this script relies on the following packages -----
 using Pkg

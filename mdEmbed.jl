@@ -1,21 +1,18 @@
-#=
-mdEmbed.jl:
+using DynamicalSystems, ElasticArrays
 
-a Julia based alternative for running multi-dimensional recurrence analysis. 
+"""
+    mdEmbed(data, D, τ)
 
-this function is used for multidimensional embedding. It takes a n-dimensional matrix and outputs an n*D dimensional Dataset. Important that Dataset format is state of art for DynamicalSystems functions.
+Embeds a multidimensional time series into a higher-dimensional delay-embedded Dataset.
 
-example:
+# Arguments
+- `data`: Input multidimensional matrix or Dataset.
+- `D`: Embedding dimension.
+- `τ`: Time delay.
 
-emb_series = mdEmbed(data, D, τ)
-
-using DynamicalSystems
-RecurrenceMatrix(emb_series, .05; fixedrate = true)
-
-requires:
-Pkg.add("ElasticArrays"); # efficent matrices
-using ElasticArrays;
-=#
+# Returns
+- A `DynamicalSystems.Dataset` containing the embedded series.
+"""
 
 function mdEmbed(data, D, τ)
 
