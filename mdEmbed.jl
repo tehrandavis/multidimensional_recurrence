@@ -16,8 +16,8 @@ Embeds a multidimensional time series into a higher-dimensional delay-embedded D
 
 function mdEmbed(data, D, τ)
 
-    if typeof(data) <: Dataset
-        data = data |> Matrix
+    if typeof(data) <: StateSpaceSet
+        data = Matrix(data)
     end
     
     nrows = size(data,1)
@@ -26,5 +26,5 @@ function mdEmbed(data, D, τ)
     for i = 1:D
         append!(embed_series,data[1+(i-1)*τ:nrows-(D-i)*τ,:])
     end
-    return(Dataset(embed_series))
+    return(StateSpaceSet(embed_series))
 end

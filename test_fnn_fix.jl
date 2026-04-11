@@ -1,8 +1,8 @@
 using DelimitedFiles
 using Distances, ElasticArrays, LinearAlgebra, StatsBase
 
-# Mock Dataset to avoid dependency on DynamicalSystems
-struct Dataset end
+# Mock StateSpaceSet to avoid dependency on DynamicalSystems
+struct StateSpaceSet end
 
 include("mdFnn.jl")
 

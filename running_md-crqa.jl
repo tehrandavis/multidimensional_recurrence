@@ -54,8 +54,8 @@ end
 # normalize the timeseries if from different signals or dimensions
 # |> save as a Dataset (per DynamicalSystems.jl documentation): for now this does nothing,
 # but futureproofing
-ts1 = StatsBase.standardize(ZScoreTransform, ts1; dims=1, center=true, scale=true) |> Dataset
-ts2 = StatsBase.standardize(ZScoreTransform, ts2; dims=1, center=true, scale=true) |> Dataset
+ts1 = StatsBase.standardize(ZScoreTransform, ts1; dims=1, center=true, scale=true) |> StateSpaceSet
+ts2 = StatsBase.standardize(ZScoreTransform, ts2; dims=1, center=true, scale=true) |> StateSpaceSet
 
 
 
@@ -137,7 +137,7 @@ CRP = CrossRecurrenceMatrix(embed_ts1, embed_ts2, .05; fixedrate = true);
 # Step 6 ------ Recurrence quantification
 
 # note that NamedTuple will soon be depreciated. Need to adjust for Dict
-crqaOUT = rqa(CRP; lmin = 20, thieller = 0);
+crqaOUT = rqa(CRP; lmin = 20, theiler = 0);
 crqaOUT = (; crqaOUT...) # convert Dict to NamedTuple
 
 
@@ -145,7 +145,7 @@ crqaOUT = (; crqaOUT...) # convert Dict to NamedTuple
 
 # diagonal crp profile
 lags = 120;
-diag_RR = [];
+diag_RR = Float64[];
 
 for i = (-1*lags):1:lags # caluculate diagonal recurrences at lag i
     push!(diag_RR, 100*sum(diag(CRP,i))/length(diag(CRP,i)));
@@ -158,7 +158,7 @@ end
 parameters = (delay = tau, embed = D);
 
 # join parameters and rqaOUT
-df_out = [merge(parameters, rqaOUT)] # be careful not to duplicate column names
+df_out = [merge(parameters, crqaOUT)] # be careful not to duplicate column names
 
 #optionally save to csv
 CSV.write("crqa_output.csv", df_out)

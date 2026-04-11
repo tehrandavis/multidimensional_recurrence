@@ -92,7 +92,7 @@ R = RecurrenceMatrix(embed_TS, .05; fixedrate = true);
 
 
 # Step 6 ------ Recurrence quantification
-rqaOUT = rqa(R; lmin = 50, thieller = 1);
+rqaOUT = rqa(R; lmin = 50, theiler = 1);
 
 # Step 7 ------- Construct output data frame
 

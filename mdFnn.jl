@@ -18,8 +18,8 @@ Adapted from Wallot and Mønster (2018).
 """
 
 function mdFnn(data, tau, maxEmb, numSamples, Rtol, Atol)
-    if typeof(data) <: Dataset
-        data = data |> Matrix
+    if typeof(data) <: StateSpaceSet
+        data = Matrix(data)
     end
 
     dims = size(data,2);
@@ -49,7 +49,7 @@ function mdFnn(data, tau, maxEmb, numSamples, Rtol, Atol)
 
     for i = 1:maxEmb # embed data
         append!(embData,data[1+(i-1)*tau:end-(maxEmb-i)*tau, 1:dims]);
-        dists =  pairwise(Euclidean(),embData.^2; dims=1);
+        dists =  pairwise(Euclidean(),embData; dims=1);
         r2d1 = Array{Float64}(undef, 0);
         yRd1 = Array{Int}(undef, 0);
         for j = 1:numSamples # get nearest neighbors and distances
