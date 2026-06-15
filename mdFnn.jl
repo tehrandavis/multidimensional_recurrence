@@ -1,3 +1,5 @@
+using Random
+
 """
     mdFnn(data, tau, maxEmb, numSamples, Rtol, Atol)
 
@@ -8,7 +10,7 @@ Estimates the percentage of False Nearest Neighbors (FNN) for a multidimensional
 - `tau`: Time delay (integral number of samples).
 - `maxEmb`: Maximum embedding dimension to test.
 - `numSamples`: Number of random samples to use for FNN estimation.
-- `Rtol`: Threshold for the ratio of neighbor distances in $D$ vs $D+1$ (typically 10-15).
+- `Rtol`: Threshold for the ratio of neighbor distances in ``D`` vs ``D+1`` (typically 10-15).
 - `Atol`: Threshold for the distance relative to the attractor size (typically 2).
 
 # Returns
@@ -33,12 +35,12 @@ function mdFnn(data, tau, maxEmb, numSamples, Rtol, Atol)
         Ra = sum(diag(cov(data))); # estimate of attractor size
     end
 
-    if (N-tau*(maxEmb-1)) < numSamples # check whether enough data points exist for random sampling
-        numSamples = N-tau*(maxEmb-1);
-        samps = 1:1:numSamples;
+    eligible = N - tau * (maxEmb - 1)
+    if eligible < numSamples # check whether enough data points exist for random sampling
+        numSamples = eligible
+        samps = collect(1:numSamples)
     else
-        #numSamples = N-tau*(maxEmb-1);
-        samps = sortperm(rand(numSamples));
+        samps = randperm(eligible)[1:numSamples]
     end
     
     embData = ElasticArray{Float64}(undef, N-tau*(maxEmb-1), 0);
